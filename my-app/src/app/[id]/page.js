@@ -4,54 +4,46 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
-import { MdStarRate } from "react-icons/md";
+import { API_BASE_URL } from "../global";
+import APIservice from "../services/api";
+import PreviewCard from "../components/PreviewCard";
+import Loader from "../components/Loader";
 
+const BASE_URL = API_BASE_URL;
 function page({ params }) {
   const [product, setProduct] = useState(null);
 
+    const api = new APIservice(BASE_URL);
 
   const { id } = React.use(params);
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await axios.get(`https://dummyjson.com/products/${id}`);
-      console.log(response.data);
-      setProduct(response.data);
+      const response = await api.get(`/products/${id}`);
+      console.log(response);
+      setProduct(response);
     }
     fetchProducts();
   }, []);
   return (
-    <div>
+    <div className="h-full">
       <Navbar />
 
-      <div className="flex flex-row gap-4 w-[80%] items-center align-middle">
-        <div className="hover:bg-slate-50 rounded-[20px] ">
-          <img src={product?.images[0]} alt="image" width={590} height={590} />
+      <div className="py-10 font-bold mt-[50px] block text-center text-[22px]">Product detail page</div>
+      {product ? (
+        <div className="flex flex-row gap-4 w-[80%] mx-auto  h-full items-center justify-center align-middle">
+          
+            <PreviewCard
+              images={product?.images}
+              title={product?.title}
+              price={product?.price}
+              description={product?.description}
+            />
+          
         </div>
-        <div>
-          <div className="w-[80%]">
-            <h1 className="font-medium text-gray-500 hover:text-gray-600">
-              {product?.title}
-            </h1>
-
-            <p className=" text-3xl tracking-tight text-gray-900">
-              Price:{" "}
-              <span className="text-3xl tracking-tight text-gray-900">
-                ${product?.price}
-              </span>
-            </p>
-            <p>{product?.description}</p>
-            <div className="flex items-center">
-              {[0, 1, 2, 3, 4].map((rating) => (
-                <MdStarRate
-                  key={rating}
-               
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
