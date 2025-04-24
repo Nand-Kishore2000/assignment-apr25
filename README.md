@@ -27,6 +27,6 @@ This is a web application built using **Next.js**, **React**, and **Tailwind CSS
 
 - npm run build: Builds the app for production.
 
- -npm run start: Starts the production server.
+- npm run start: Starts the production server.
 
 - npm run lint: Lints the project files.
