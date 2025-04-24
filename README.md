@@ -16,3 +16,8 @@ This is a web application built using **Next.js**, **React**, and **Tailwind CSS
    ```bash
    git clone https://github.com/your-username/my-app.git
    cd my-app
+
+
+2. Install dependancy:
+   ```bash
+     npm install
